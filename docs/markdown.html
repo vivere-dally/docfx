@@ -79,7 +79,26 @@
 <h1 id="markdown">Markdown</h1>
 
 <p><a href="https://daringfireball.net/projects/markdown/">Markdown</a> is a lightweight markup language with plain text formatting syntax. Docfx supports <a href="https://commonmark.org/">CommonMark</a> compliant Markdown parsed through the <a href="https://github.com/xoofx/markdig">Markdig</a> parsing engine.</p>
+<h2 id="markdown-extensions">Markdown Extensions</h2>
 <p>Docfx supports additional markdown syntax that provide richer content. These syntax are specific to docfx and won't be rendered elsewhere like GitHub.</p>
+<p>To use a custom markdown extension:</p>
+<ol>
+<li>Use docfx as a NuGet library:</li>
+</ol>
+<pre><code class="lang-xml">&lt;PackageReference Include=&quot;Microsoft.DocAsCode.App&quot; Version=&quot;2.61.0&quot; /&gt;
+</code></pre>
+<ol start="2">
+<li>Configure the markdig markdown pipeline:</li>
+</ol>
+<pre><code class="lang-cs">var options = new BuildOptions
+{
+    // Enable custom markdown extensions here
+    ConfigureMarkdig = pipeline =&gt; pipeline.UseCitations(),
+}
+
+await Docset.Build(&quot;docfx.json&quot;, options);
+</code></pre>
+<p>Here is a list of markdown extensions provided by docfx by default.</p>
 <h2 id="alerts">Alerts</h2>
 <p>Alerts are block quotes that render with colors and icons that indicate the significance of the content.</p>
 <p>The following alert types are supported:</p>

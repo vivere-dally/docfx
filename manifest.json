@@ -147,7 +147,7 @@
       "output": {
         ".html": {
           "relative_path": "docs/markdown.html",
-          "hash": "5KVj//h9EZ+c6TPOJlqHCdB1c/Q5cCB9myk6R64MCWI="
+          "hash": "Q4CjTHCkgylyoVgN8r8+eM64lHjtdu9ZdB0+8WJph3I="
         }
       },
       "is_incremental": false,
@@ -207,7 +207,7 @@
       "output": {
         ".html": {
           "relative_path": "docs/toc.html",
-          "hash": "7rkgFvtCrXyHNEi3lJazTFsKpUuhrEDAhs6VfMfuN44="
+          "hash": "kX0C2A737gXdAHyqQsck59tqFZOPG5LXbs3/p3uuyGU="
         }
       },
       "is_incremental": false,
@@ -683,21 +683,6 @@
       "version": ""
     },
     {
-      "log_codes": [
-        "UidNotFound"
-      ],
-      "type": "Conceptual",
-      "source_relative_path": "tutorial/howto_customize_docfx_flavored_markdown.md",
-      "output": {
-        ".html": {
-          "relative_path": "tutorial/howto_customize_docfx_flavored_markdown.html",
-          "hash": "XXsPdnLuWcPImbaLnmOh6aI7sXi3SeTxDGf1cVWfuAU="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
       "type": "Conceptual",
       "source_relative_path": "tutorial/howto_filter_out_unwanted_apis_attributes.md",
       "output": {
@@ -737,21 +722,6 @@
       "output": {
         "resource": {
           "relative_path": "tutorial/images/web_page_with_extra_property.png"
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "log_codes": [
-        "UidNotFound"
-      ],
-      "type": "Conceptual",
-      "source_relative_path": "tutorial/intro_markdown_lite.md",
-      "output": {
-        ".html": {
-          "relative_path": "tutorial/intro_markdown_lite.html",
-          "hash": "hkaJJc+W+dz8XSDH6MZUDIDbY6ySNmTe3BGZC1vwepo="
         }
       },
       "is_incremental": false,
@@ -854,21 +824,6 @@
       "version": ""
     },
     {
-      "log_codes": [
-        "UidNotFound"
-      ],
-      "type": "Conceptual",
-      "source_relative_path": "tutorial/validate_your_markdown_files.md",
-      "output": {
-        ".html": {
-          "relative_path": "tutorial/validate_your_markdown_files.html",
-          "hash": "jwrtdBdbU+woxGd5VjIz0uF2HT9aoywA+efhEC1fPMA="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
       "type": "Conceptual",
       "source_relative_path": "tutorial/walkthrough/advanced_walkthrough.md",
       "output": {
@@ -943,7 +898,7 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 39,
+          "total_file_count": 36,
           "skipped_file_count": 0
         },
         "Dashboard": {
