@@ -33,17 +33,23 @@ references:
   fullName: Microsoft.DocAsCode.Docset
   nameWithType: Docset
 - uid: Microsoft.DocAsCode.Docset.Build(System.String,Microsoft.DocAsCode.BuildOptions)
-  name: Build(String, BuildOptions)
+  name: Build(string, BuildOptions)
   href: api/Microsoft.DocAsCode.Docset.html#Microsoft_DocAsCode_Docset_Build_System_String_Microsoft_DocAsCode_BuildOptions_
   commentId: M:Microsoft.DocAsCode.Docset.Build(System.String,Microsoft.DocAsCode.BuildOptions)
-  fullName: Microsoft.DocAsCode.Docset.Build(System.String, Microsoft.DocAsCode.BuildOptions)
-  nameWithType: Docset.Build(String, BuildOptions)
+  name.vb: Build(String, BuildOptions)
+  fullName: Microsoft.DocAsCode.Docset.Build(string, Microsoft.DocAsCode.BuildOptions)
+  fullName.vb: Microsoft.DocAsCode.Docset.Build(String, Microsoft.DocAsCode.BuildOptions)
+  nameWithType: Docset.Build(string, BuildOptions)
+  nameWithType.vb: Docset.Build(String, BuildOptions)
 - uid: Microsoft.DocAsCode.Docset.Build(System.String)
-  name: Build(String)
+  name: Build(string)
   href: api/Microsoft.DocAsCode.Docset.html#Microsoft_DocAsCode_Docset_Build_System_String_
   commentId: M:Microsoft.DocAsCode.Docset.Build(System.String)
-  fullName: Microsoft.DocAsCode.Docset.Build(System.String)
-  nameWithType: Docset.Build(String)
+  name.vb: Build(String)
+  fullName: Microsoft.DocAsCode.Docset.Build(string)
+  fullName.vb: Microsoft.DocAsCode.Docset.Build(String)
+  nameWithType: Docset.Build(string)
+  nameWithType.vb: Docset.Build(String)
 - uid: Microsoft.DocAsCode.Docset.Build*
   name: Build
   href: api/Microsoft.DocAsCode.Docset.html#Microsoft_DocAsCode_Docset_Build_

@@ -30,7 +30,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.DocAsCode.BuildOptions.html",
-          "hash": "n/hhQr97ilIvY5EaHpWDiqXjc8o+Xutx2ChGlVqe2nk="
+          "hash": "fXTa9DkRI6nRzB/hmVf7sdNBoZBRBdZr30pT7wDRm0A="
         }
       },
       "is_incremental": false,
@@ -42,7 +42,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.DocAsCode.Docset.html",
-          "hash": "3bkqPg9BI3jdhkLb2DieJCTtyddl4y8KcR3dTtH+x8g="
+          "hash": "gs6KFmZzrgz2on9yj7L8DiSnuuiBE3kq6tn3z71WMAU="
         }
       },
       "is_incremental": false,
@@ -54,7 +54,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.DocAsCode.html",
-          "hash": "GqD905tNzr9Jya+umYJABSUDIfPpMvfMRgrBs9CN00k="
+          "hash": "9ZF2+6Oy/n64al16UwMnxY3hkcAVjDkTan6PanPVVX4="
         }
       },
       "is_incremental": false,
