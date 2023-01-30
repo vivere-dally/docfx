@@ -17,7 +17,7 @@
   "docs/config.html": {
     "href": "docs/config.html",
     "title": "Config | docfx",
-    "keywords": "Config Docfx uses docfx.json as the config file for the site. Most docfx commands operate in a directory containing docfx.json. The build config determines what files are included in the site: { \"build\": { \"content\": [ { \"files\": \"**/*.{md,yml}\", \"exclude\": \"**/include/**\" } ], \"resource\": [ { \"files\": \"**/images/**\" } ] } } The content config defines glob patterns of files that are transformed to HTML by the build process. It is usually the markdown files and auto-generated API YAML files. The resource config defines static resources copied to output as is. URL Management URL is determined by the file path relative to docfx.json. Docfx uses “Ugly URLs”: a file named docs/urls.md is accessible from the docs/urls.html URL. To customize URL pattern for a directory, use the src property to remove the directory name from the URL, and use the dest property to insert an URL prefix: { \"build\": { \"content\": [ { \"files\": \"**/*.{md,yml}\", \"src\": \"articles\", \"dest\": \"docs\" } ] } } In this example, files in the articles directory uses docs as the base URL: The articles/getting-started/installation.md file is accessible by the docs/getting-started/installation.html URL. Metadata Metadata are attributes attached to an file. It helps shape the look and feel of a page and provides extra context to the article. To add metadata to an article, use \"YAML Front Matter\" markdown extension syntax: --- title: a title description: a description --- Some metadata attributes are consistent across a set of content. Use the globalMetadata property in docfx.json to apply the same metadata to all articles: { \"build\": { \"globalMetadata\": { \"_appTitle\": \"My App\" } } } To apply identical metadata values to a folder or a set of content, use the fileMetadata config: { \"build\": { \"fileMetadata\": { \"_appTitle\": { \"articles/dotnet/**/*.md\": \".NET\", \"articles/typescript/**/*.md\": \"TypeScript\" } } } } When the same metadata key is defined in multiple places, YAML Front Matter takes precedence over fileMetadata which in turn takes precedence over globalMetadata. Predefined Metadata Here is a list of predefined metadata recognized by the default docfx site template to customize basic site settings: Name Type Description _appTitle string A string append to every page title. _appFooter string The footer HTML. _appLogoPath string App logo URL path. _appFaviconPath string Favicon URL path. _enableSearch bool Whether to show the search box. _enableNewTab bool Whether to open external links in a new tab. _disableNavbar bool Whether to show the navigation bar. _disableBreadcrumb bool Whether to show the breadcrumb. _disableToc bool Whether to show the TOC. _disableAffix bool Whether to show the right rail. _noindex bool Whether to include in search results _disableContribution bool Whether to show the \"Improve this Doc\" and _\"View Source\" buttons. _gitContribute object Defines the repo and branch property of git links. _gitUrlPattern string URL pattern of git links. Tip Docfx produces the right git links for major CI pipelines including GitHub, GitLab, Azure Pipelines, AppVeyor, TeamCity, Jenkins. _gitContribute and _gitUrlPattern are optional on these platforms. Sitemap Docfx produces a sitemap.xml about the pages on your site for search engines like Google to crawl your site more efficiently. The sitemap option in docfx.json controls how sitemaps are generated: { \"build\": { \"sitemap\": { \"baseUrl\": \"https://dotnet.github.iodocfx\", \"priority\": 0.1, \"changefreq\": \"monthly\" } } } Where: baseUrl is the base URL for the website. It should start with http or https and end with a trailing slash. For example, https://dotnet.github.io/docfx/. lastmod is the date of last modification of the page. If not specified, docfx sets the date to the build time. changefreq determines how frequently the page is likely to change. Valid values are always, hourly, daily, weekly, monthly, yearly, never. Default to daily. priority is the priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0. fileOptions is a per file config of the above options. The key is the file glob pattern and value is the sitemap options."
+    "keywords": "Config Docfx uses docfx.json as the config file for the site. Most docfx commands operate in a directory containing docfx.json. The build config determines what files are included in the site: { \"build\": { \"content\": [ { \"files\": \"**/*.{md,yml}\", \"exclude\": \"**/include/**\" } ], \"resource\": [ { \"files\": \"**/images/**\" } ] } } The content config defines glob patterns of files that are transformed to HTML by the build process. It is usually the markdown files and auto-generated API YAML files. The resource config defines static resources copied to output as is. URL Management URL is determined by the file path relative to docfx.json. Docfx uses “Ugly URLs”: a file named docs/urls.md is accessible from the docs/urls.html URL. To customize URL pattern for a directory, use the src property to remove the directory name from the URL, and use the dest property to insert an URL prefix: { \"build\": { \"content\": [ { \"files\": \"**/*.{md,yml}\", \"src\": \"articles\", \"dest\": \"docs\" } ] } } In this example, files in the articles directory uses docs as the base URL: The articles/getting-started/installation.md file is accessible by the docs/getting-started/installation.html URL. Metadata Metadata are attributes attached to an file. It helps shape the look and feel of a page and provides extra context to the article. To add metadata to an article, use \"YAML Front Matter\" markdown extension syntax: --- title: a title description: a description --- Some metadata attributes are consistent across a set of content. Use the globalMetadata property in docfx.json to apply the same metadata to all articles: { \"build\": { \"globalMetadata\": { \"_appTitle\": \"My App\" } } } To apply identical metadata values to a folder or a set of content, use the fileMetadata config: { \"build\": { \"fileMetadata\": { \"_appTitle\": { \"articles/dotnet/**/*.md\": \".NET\", \"articles/typescript/**/*.md\": \"TypeScript\" } } } } When the same metadata key is defined in multiple places, YAML Front Matter takes precedence over fileMetadata which in turn takes precedence over globalMetadata. Predefined Metadata Here is a list of predefined metadata recognized by the default docfx site template to customize basic site settings: Name Type Description _appTitle string A string append to every page title. _appFooter string The footer HTML. _appLogoPath string App logo URL path. _appFaviconPath string Favicon URL path. _enableSearch bool Whether to show the search box. _enableNewTab bool Whether to open external links in a new tab. _disableNavbar bool Whether to show the navigation bar. _disableBreadcrumb bool Whether to show the breadcrumb. _disableToc bool Whether to show the TOC. _disableAffix bool Whether to show the right rail. _noindex bool Whether to include in search results _disableContribution bool Whether to show the \"Improve this Doc\" and _\"View Source\" buttons. _gitContribute object Defines the repo and branch property of git links. _gitUrlPattern string URL pattern of git links. redirect_url string Redirects the current page to the specified redirect URL. URLs can be relative. Tip Docfx produces the right git links for major CI pipelines including GitHub, GitLab, Azure Pipelines, AppVeyor, TeamCity, Jenkins. _gitContribute and _gitUrlPattern are optional on these platforms. Sitemap Docfx produces a sitemap.xml about the pages on your site for search engines like Google to crawl your site more efficiently. The sitemap option in docfx.json controls how sitemaps are generated: { \"build\": { \"sitemap\": { \"baseUrl\": \"https://dotnet.github.iodocfx\", \"priority\": 0.1, \"changefreq\": \"monthly\" } } } Where: baseUrl is the base URL for the website. It should start with http or https and end with a trailing slash. For example, https://dotnet.github.io/docfx/. lastmod is the date of last modification of the page. If not specified, docfx sets the date to the build time. changefreq determines how frequently the page is likely to change. Valid values are always, hourly, daily, weekly, monthly, yearly, never. Default to daily. priority is the priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0. fileOptions is a per file config of the above options. The key is the file glob pattern and value is the sitemap options."
   },
   "docs/dotnet-api-docs.html": {
     "href": "docs/dotnet-api-docs.html",
@@ -86,12 +86,12 @@
   },
   "spec/docfx_flavored_markdown.html": {
     "href": "spec/docfx_flavored_markdown.html",
-    "title": "DocFX Flavored Markdown | docfx",
+    "title": "",
     "keywords": ""
   },
   "spec/metadata_dotnet_spec.html": {
     "href": "spec/metadata_dotnet_spec.html",
-    "title": "DocFx: Metadata Format for .NET Languages | docfx",
+    "title": "",
     "keywords": ""
   },
   "spec/metadata_format_spec.html": {
@@ -106,7 +106,7 @@
   },
   "spec/triple_slash_comments_spec.html": {
     "href": "spec/triple_slash_comments_spec.html",
-    "title": "Triple-slash (///) Code Comments Support | docfx",
+    "title": "",
     "keywords": ""
   },
   "tutorial/advanced_support_hyperlink.html": {
@@ -116,7 +116,7 @@
   },
   "tutorial/docfx_getting_started.html": {
     "href": "tutorial/docfx_getting_started.html",
-    "title": "Getting Started with *DocFX* | docfx",
+    "title": "",
     "keywords": ""
   },
   "tutorial/docfx.exe_user_manual.html": {
@@ -146,7 +146,7 @@
   },
   "tutorial/howto_filter_out_unwanted_apis_attributes.html": {
     "href": "tutorial/howto_filter_out_unwanted_apis_attributes.html",
-    "title": "How-to: Filter Out Unwanted APIs or Attributes | docfx",
+    "title": "",
     "keywords": ""
   },
   "tutorial/intro_markdown_lite.html": {
@@ -161,7 +161,7 @@
   },
   "tutorial/intro_rest_api_documentation.html": {
     "href": "tutorial/intro_rest_api_documentation.html",
-    "title": "Introduction to REST API Documentation | docfx",
+    "title": "",
     "keywords": ""
   },
   "tutorial/intro_template.html": {
@@ -171,7 +171,7 @@
   },
   "tutorial/intro_toc.html": {
     "href": "tutorial/intro_toc.html",
-    "title": "Table-Of-Content (TOC) Files | docfx",
+    "title": "",
     "keywords": ""
   },
   "tutorial/links_and_cross_references.html": {
@@ -201,27 +201,27 @@
   },
   "tutorial/walkthrough/advanced_walkthrough.html": {
     "href": "tutorial/walkthrough/advanced_walkthrough.html",
-    "title": "Walkthrough Advanced: Customize Your Website | docfx",
+    "title": "",
     "keywords": ""
   },
   "tutorial/walkthrough/walkthrough_create_a_docfx_project_2.html": {
     "href": "tutorial/walkthrough/walkthrough_create_a_docfx_project_2.html",
-    "title": "Walkthrough Part II: Adding API Documentation to the Website | docfx",
+    "title": "",
     "keywords": ""
   },
   "tutorial/walkthrough/walkthrough_create_a_docfx_project.html": {
     "href": "tutorial/walkthrough/walkthrough_create_a_docfx_project.html",
-    "title": "Walkthrough Part I: Generate a Simple Documentation Website | docfx",
+    "title": "",
     "keywords": ""
   },
   "tutorial/walkthrough/walkthrough_generate_pdf.html": {
     "href": "tutorial/walkthrough/walkthrough_generate_pdf.html",
-    "title": "Walkthrough Part III: Generate PDF Documentation | docfx",
+    "title": "",
     "keywords": ""
   },
   "tutorial/walkthrough/walkthrough_overview.html": {
     "href": "tutorial/walkthrough/walkthrough_overview.html",
-    "title": "Walkthrough Overview | docfx",
+    "title": "",
     "keywords": ""
   }
 }
