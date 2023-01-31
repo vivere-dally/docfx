@@ -4,6 +4,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.Build.Framework;
 using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
@@ -59,7 +60,7 @@ namespace Microsoft.DocAsCode.Metadata.ManagedReference
             Logger.LogInfo($"Loading solution {solutionPath}");
 
             using var workspace = MSBuildWorkspace.Create();
-            var solution = await workspace.OpenSolutionAsync(solutionPath);
+            var solution = await workspace.OpenSolutionAsync(solutionPath, new MsBuildLogger());
 
             foreach (var project in solution.Projects)
             {
@@ -75,7 +76,7 @@ namespace Microsoft.DocAsCode.Metadata.ManagedReference
             Logger.LogInfo($"Loading project {projectPath}");
 
             using var workspace = MSBuildWorkspace.Create();
-            var project = await workspace.OpenProjectAsync(projectPath);
+            var project = await workspace.OpenProjectAsync(projectPath, new MsBuildLogger());
             var compilation = await project.GetCompilationAsync();
             await CreateFromCompilation(builder, compilation, options);
         }
@@ -109,6 +110,22 @@ namespace Microsoft.DocAsCode.Metadata.ManagedReference
             };
 
             var i = new RoslynMetadataExtractor(compilation, compilation.Assembly).Extract(options);
+        }
+
+        class MsBuildLogger : ILogger
+        {
+            public LoggerVerbosity Verbosity { get; set; }
+            public string Parameters { get; set; }
+
+            public void Initialize(IEventSource eventSource)
+            {
+                eventSource.AnyEventRaised += (sender, e) =>
+                {
+                    Console.WriteLine(e.Message);
+                };
+            }
+
+            public void Shutdown() { }
         }
     }
 }
