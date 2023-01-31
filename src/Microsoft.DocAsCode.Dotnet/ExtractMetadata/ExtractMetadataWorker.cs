@@ -20,7 +20,7 @@ namespace Microsoft.DocAsCode.Metadata.ManagedReference
     using Microsoft.DocAsCode.Exceptions;
     using Microsoft.DocAsCode.Plugins;
 
-    public sealed class ExtractMetadataWorker : IDisposable
+    public sealed class ExtractMetadataWorker
     {
         private const string XmlCommentFileExtension = "xml";
         private readonly Dictionary<FileType, List<FileInformation>> _files;
@@ -118,10 +118,6 @@ namespace Microsoft.DocAsCode.Metadata.ManagedReference
             }
         }
 
-        public void Dispose()
-        {
-        }
-
         #region Private
 
         private async Task SaveAllMembersFromCacheAsync()
@@ -149,23 +145,16 @@ namespace Microsoft.DocAsCode.Metadata.ManagedReference
                     using (new LoggerFileScope(path))
                     {
                         documentCache.AddDocument(path, path);
-                        var solution = await GetSolutionAsync(path);
-                        if (solution != null)
+                        Logger.LogInfo($"  {path}");
+                        var solution = await _workspace.Value.OpenSolutionAsync(path);
+                        foreach (var project in solution.Projects)
                         {
-                            foreach (var project in solution.Projects)
-                            {
-                                var projectFile = new FileInformation(project.FilePath);
+                            var projectFile = new FileInformation(project.FilePath);
 
-                                // If the project is supported, add to project dictionary, otherwise, ignore
-                                if (projectFile.Type == FileType.Project)
-                                {
-                                    projectCache.GetOrAdd(projectFile.NormalizedPath, 
-                                                          s => _loader.Load(projectFile.NormalizedPath));
-                                }
-                                else
-                                {
-                                    Logger.LogWarning($"Project {projectFile.RawPath} inside solution {path} is ignored, supported projects are csproj, fsproj and vbproj.");
-                                }
+                            // If the project is supported, add to project dictionary, otherwise, ignore
+                            if (projectFile.Type == FileType.Project)
+                            {
+                                projectCache.GetOrAdd(projectFile.NormalizedPath, s => _loader.Load(projectFile.NormalizedPath));
                             }
                         }
                     }
@@ -284,11 +273,11 @@ namespace Microsoft.DocAsCode.Metadata.ManagedReference
             // Build all the projects to get the output and save to cache
             List<MetadataItem> projectMetadataList = new List<MetadataItem>();
             ConcurrentDictionary<string, bool> projectRebuildInfo = new ConcurrentDictionary<string, bool>();
-            ConcurrentDictionary<string, AbstractCompilation> compilationCache = 
+            ConcurrentDictionary<string, AbstractCompilation> compilationCache =
                 await GetProjectCompilationAsync(projectCache);
             var roslynProjects = compilationCache.Values.OfType<RoslynCompilation>().Select(rc => rc.Compilation);
-            options.RoslynExtensionMethods = 
-                RoslynIntermediateMetadataExtractor.GetAllExtensionMethodsFromCompilation(roslynProjects); 
+            options.RoslynExtensionMethods =
+                RoslynIntermediateMetadataExtractor.GetAllExtensionMethodsFromCompilation(roslynProjects);
             foreach (var key in GetTopologicalSortedItems(projectDependencyGraph))
             {
                 var dependencyRebuilt = projectDependencyGraph[key].Any(r => projectRebuildInfo[r]);
@@ -350,7 +339,7 @@ namespace Microsoft.DocAsCode.Metadata.ManagedReference
                         var controller = new RoslynSourceFileBuildController(assemblyCompilation, assembly);
 
                         var mta = GetMetadataFromProjectLevelCache(controller, input);
-                        
+
                         if (mta != null)
                         {
                             MergeCommentsHelper.MergeComments(options, mta.Item1, commentFiles);
@@ -746,23 +735,6 @@ namespace Microsoft.DocAsCode.Metadata.ManagedReference
             }
 
             return result;
-        }
-
-        private async Task<Solution> GetSolutionAsync(string path)
-        {
-            try
-            {
-                Logger.LogVerbose("Loading solution...");
-                var solution = await _workspace.Value.OpenSolutionAsync(path);
-                _workspace.Value.CloseSolution();
-                Logger.LogVerbose($"Solution {solution.FilePath} loaded.");
-                return solution;
-            }
-            catch (Exception e)
-            {
-                Logger.Log(LogLevel.Warning, $"Error opening solution {path}: {e.Message}. Ignored.");
-                return null;
-            }
         }
 
         private AbstractProject GetProject(ConcurrentDictionary<string, AbstractProject> cache, string path)

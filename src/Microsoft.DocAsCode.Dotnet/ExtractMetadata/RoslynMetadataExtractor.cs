@@ -23,11 +23,6 @@ namespace Microsoft.DocAsCode.Metadata.ManagedReference
 
         public MetadataItem Extract(ExtractMetadataOptions options)
         {
-            var preserveRawInlineComments = options.PreserveRawInlineComments;
-            var filterConfigFile = options.FilterConfigFile;
-            var extensionMethods = options.RoslynExtensionMethods;
-
-            object visitorContext = new object();
             SymbolVisitorAdapter visitor;
             if (_compilation.Language == "Visual Basic")
             {

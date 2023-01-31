@@ -14,15 +14,7 @@ namespace Microsoft.DocAsCode
 {
     internal static class RunMetadata
     {
-        static RunMetadata()
-        {
-            var vs = MSBuildLocator.RegisterDefaults() ?? throw new DocfxException(
-                $"Cannot find a supported .NET Core SDK. Install .NET Core SDK {Environment.Version.Major}.{Environment.Version.Minor}.x to build .NET API docs.");
-
-            Logger.LogInfo($"Use {vs.Name} {vs.Version}");
-        }
-
-        public static void Exec(MetadataJsonConfig config, string configDirectory, string outputDirectory = null)
+        public static async Task Exec(MetadataJsonConfig config, string configDirectory, string outputDirectory = null)
         {
             try
             {
@@ -43,11 +35,9 @@ namespace Microsoft.DocAsCode
 
                         EnvironmentContext.SetGitFeaturesDisabled(item.DisableGitFeatures);
 
-                        // TODO: Use plugin to generate metadata for files with different extension?
-                        using var worker = new ExtractMetadataWorker(inputModel);
-                        // Use task.run to get rid of current context (causing deadlock in xunit)
-                        var task = Task.Run(worker.ExtractMetadataAsync);
-                        task.Wait();
+                        //var worker = new ExtractMetadataWorker(inputModel);
+                        //await worker.ExtractMetadataAsync();
+                        await ApiCatalog.Create(inputModel);
                     }
 
                     VisitorHelper.GlobalNamespaceId = originalGlobalNamespaceId;
