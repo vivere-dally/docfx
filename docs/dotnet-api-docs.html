@@ -79,7 +79,7 @@
 <h1 id="net-api-docs">.NET API Docs</h1>
 
 <p>Docfx converts <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/">XML documentation comments</a> into rendered HTML documentations.</p>
-<h2 id="build-from-dll-csproj-or-source-code">Build from DLL, csproj or Source Code</h2>
+<h2 id="generate-net-api-docs">Generate .NET API Docs</h2>
 <p>To add API docs for a .NET project, add a <code>metadata</code> section before the <code>build</code> section in <code>docfx.json</code> config:</p>
 <pre><code class="lang-json">{
   &quot;metadata&quot;: {
@@ -91,15 +91,49 @@
   },
   &quot;build&quot;: {
     &quot;content&quot;: [{
-      &quot;files&quot;: [ &quot;**/*.{md,yml}&quot; ]
+      &quot;files&quot;: [ &quot;api/*.yml&quot; ]
     }]
   }
 }
 </code></pre>
-<p>The <code>docfx metadata</code> command uses <code>metadata</code> config to produce <a href="dotnet-yaml-format.html">.NET API YAML files</a> at the <code>dest</code> directory for the <code>docfx build</code> command to turn into HTML files.</p>
-<p>The <code>src</code> property can be a glob pattern of DLL, csproj, or source code.</p>
-<p>When file extension is <code>.dll</code>, docfx produces API docs using the DLL and the side-by-side XML documentation file. Source code linking is not available in this mode.</p>
-<p>When file extension is <code>.csproj</code>, <code>.vbproj</code>, <code>.fsproj</code> or <code>.sln</code>, docfx builds the project and produces API docs based on project config and source code. Source code linking is available in this mode. Additional <code>msbuild</code> properties to build the projects can be specified in the <code>properties</code> config:</p>
+<p>Docfx generates .NET API docs in 2 stages:</p>
+<ol>
+<li><p>The <em>metadata</em> stage uses the <code>metadata</code> config to produce <a href="dotnet-yaml-format.html">.NET API YAML files</a> at the <code>metadata.dest</code> directory.</p>
+</li>
+<li><p>The <em>build</em> stage transforms the generated .NET API YAML files specified in <code>build.content</code> config into HTML files.</p>
+</li>
+</ol>
+<p>These 2 stages can run independently with the <code>docfx metadata</code> command and the <code>docfx build</code> command. The <code>docfx</code> root command runs both <code>metadata</code> and <code>build</code>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Glob patterns in docfx currently does not support crawling files outside the directory containing <code>docfx.json</code>. Use the <code>metadata.src</code> property</p>
+</div>
+<p>Docfx supports several source formats to generate .NET API docs:</p>
+<h2 id="generate-from-assemblies">Generate from assemblies</h2>
+<p>When the file extension is <code>.dll</code> or <code>.exe</code>, docfx produces API docs by reflecting the assembly and the side-by-side XML documentation file.</p>
+<p>This approach is build independent and language independent, if you are having trouble with msbuild or using an unsupported project format such as <code>.fsproj</code>, generating docs from assemblies is the recommended approach.</p>
+<p>Docfx examines the assembly and tries to load the reference assemblies from within the same directory or the global systems assembly directory. In case an reference assembly fails to resolve, use the <code>references</code> property to specify a list of additional reference assembly path:</p>
+<pre><code class="lang-json">{
+  &quot;metadata&quot;: {
+    &quot;src&quot;: [{
+      &quot;files&quot;: [&quot;**/bin/Release/**.dll&quot;],
+      &quot;src&quot;: &quot;../&quot;
+    }],
+    &quot;dest&quot;: &quot;api&quot;,
+    &quot;references&quot;: [
+      &quot;path-to-reference-assembly.dll&quot;
+    ]
+  },
+}
+</code></pre>
+<p>Features that needs source code information such as &quot;Improve this doc&quot; and &quot;View source&quot; is not available using this approach.</p>
+<h2 id="generate-from-projects-or-solutions">Generate from projects or solutions</h2>
+<p>When the file extension is <code>.csproj</code>, <code>.vbproj</code> or <code>.sln</code>, docfx uses <a href="https://gist.github.com/DustinCampbell/32cd69d04ea1c08a16ae5c4cd21dd3a3"><code>MSBuildWorkspace</code></a> to perform a design-time build of the projects before generating API docs.</p>
+<p>In order to successfully load an MSBuild project, .NET Core SDK must be installed and available globally. The installation must have the necessary workloads and components to support the projects you'll be loading.</p>
+<p>Run <code>dotnet restore</code> before <code>docfx</code> to ensure that dependencies are available. Running <code>dotnet restore</code> is still needed even if your project does not have NuGet dependencies when Visual Studio is not installed.</p>
+<p>To troubleshoot MSBuild load problems, run <code>docfx metadata --logLevel verbose</code> to see MSBuild logs.</p>
+<p>Docfx build the project using <code>Release</code> config by default, additional MSBuild properties can be specified with <code>properties</code>.</p>
+<p>If your project targets multiple target frameworks, docfx internally builds each target framework of the project. Try specify the <code>TargetFramework</code> MSBuild property to speed up project build:</p>
 <pre><code class="lang-json">{
   &quot;metadata&quot;: {
     &quot;src&quot;: [{
@@ -113,7 +147,8 @@
   },
 }
 </code></pre>
-<p>When file extension is <code>.cs</code> or <code>.vb</code>, docfx uses the latest .NET Core SDK installed on the machine to build the source code. References provided by <code>Microsoft.NET.Sdk</code> are available to the source code, additional references can be specified in the <code>references</code> config:</p>
+<h2 id="generate-from-source-code">Generate from source code</h2>
+<p>When the file extension is <code>.cs</code> or <code>.vb</code>, docfx uses the latest supported .NET Core SDK installed on the machine to build the source code using <code>Microsoft.NET.Sdk</code>. Additional references can be specified in the <code>references</code> config:</p>
 <pre><code class="lang-json">{
   &quot;metadata&quot;: {
     &quot;src&quot;: [{
@@ -122,7 +157,7 @@
     }],
     &quot;dest&quot;: &quot;api&quot;,
     &quot;references&quot;: [
-      &quot;path-to-my-library.dll&quot;
+      &quot;path-to-reference-assembly.dll&quot;
     ]
   },
 }
