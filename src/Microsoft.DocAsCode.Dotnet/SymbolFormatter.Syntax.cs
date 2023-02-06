@@ -9,7 +9,7 @@ using VB = Microsoft.CodeAnalysis.VisualBasic;
 
 #nullable enable
 
-namespace Microsoft.DocAsCode.Metadata.ManagedReference
+namespace Microsoft.DocAsCode.Dotnet
 {
     partial class SymbolFormatter
     {

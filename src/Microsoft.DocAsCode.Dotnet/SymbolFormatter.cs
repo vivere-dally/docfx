@@ -8,7 +8,7 @@ using Microsoft.DocAsCode.DataContracts.ManagedReference;
 using CS = Microsoft.CodeAnalysis.CSharp;
 using VB = Microsoft.CodeAnalysis.VisualBasic;
 
-namespace Microsoft.DocAsCode.Metadata.ManagedReference
+namespace Microsoft.DocAsCode.Dotnet
 {
     internal static partial class SymbolFormatter
     {
