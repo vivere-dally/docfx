@@ -174,7 +174,39 @@ await Docset.Build(&quot;docfx.json&quot;, options);
 <pre><code class="lang-markdown">[!code-csharp[](Program.cs?highlight=2,5-7,9-)]
 </code></pre>
 <p>The example highlights lines 2, line 5 to 7 and lines 9 to the end of the file.</p>
-<h2 id="tabs">Tabs</h2>
+<pre><code class="lang-csharp" highlight-lines="2,5-7,9-">using System;
+using Azure;
+using Azure.Storage;
+using Azure.Storage.Blobs;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Define the connection string for the storage account
+        string connectionString = &quot;DefaultEndpointsProtocol=https;AccountName=&lt;your-account-name&gt;;AccountKey=&lt;your-account-key&gt;;EndpointSuffix=core.windows.net&quot;;
+
+        // Create a new BlobServiceClient using the connection string
+        var blobServiceClient = new BlobServiceClient(connectionString);
+
+        // Create a new container
+        var container = blobServiceClient.CreateBlobContainer(&quot;mycontainer&quot;);
+
+        // Upload a file to the container
+        using (var fileStream = File.OpenRead(&quot;path/to/file.txt&quot;))
+        {
+            container.UploadBlob(&quot;file.txt&quot;, fileStream);
+        }
+
+        // Download the file from the container
+        var downloadedBlob = container.GetBlobClient(&quot;file.txt&quot;).Download();
+        using (var fileStream = File.OpenWrite(&quot;path/to/downloaded-file.txt&quot;))
+        {
+            downloadedBlob.Value.Content.CopyTo(fileStream);
+        }
+    }
+}
+</code></pre><h2 id="tabs">Tabs</h2>
 <p>Tabs enable content that is multi-faceted. They allow sections of a document to contain variant content renderings and eliminates duplicate content.</p>
 <p>Here's an example of the tab experience:</p>
 <div class="tabGroup" id="tabgroup_bHGHmlrG6S">
